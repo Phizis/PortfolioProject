@@ -1,6 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -10,6 +12,13 @@ public class MenuController : MonoBehaviour
     [SerializeField] GameObject PauseMenu;
     int sceneIndex;
     GameController gameController;
+
+    [Header("Sounds")]
+    [SerializeField] AudioMixerGroup Mixer;
+    [SerializeField] Toggle masterToggle;
+    [SerializeField] Toggle musicToggle;
+    [SerializeField] Toggle soundToggle;
+
     private void Start()
     {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -49,6 +58,29 @@ public class MenuController : MonoBehaviour
     {
         Time.timeScale = 1f;
         PauseMenu.SetActive(false);
+    }
+
+    public void ToggleMasterSound()
+    {
+        if (masterToggle.isOn)
+            Mixer.audioMixer.SetFloat("MasterVolume", 0);
+        else
+            Mixer.audioMixer.SetFloat("MasterVolume", -80);
+    }
+
+    public void ToggleMusic()
+    {
+        if (musicToggle.isOn)
+            Mixer.audioMixer.SetFloat("MusicVolume", 0);
+        else
+            Mixer.audioMixer.SetFloat("MusicVolume", -80);
+    }
+    public void ToggleSounds()
+    {
+        if (soundToggle.isOn)
+            Mixer.audioMixer.SetFloat("SoundsVolume", 0);
+        else
+            Mixer.audioMixer.SetFloat("SoundsVolume", -80);
     }
 
 }

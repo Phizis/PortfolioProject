@@ -16,6 +16,12 @@ public class GameController : MonoBehaviour
     [SerializeField] PipeMovement scoreSpeed;
     private float score = 0;
 
+    [Header("LeaderBoard")]
+    [SerializeField] GameObject GoldMedal;
+    [SerializeField] GameObject SilverMedal;
+    [SerializeField] TextMeshProUGUI currentScore;
+    [SerializeField] TextMeshProUGUI bestScore;
+
     
     void Start()
     {
