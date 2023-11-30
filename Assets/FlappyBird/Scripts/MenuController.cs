@@ -31,7 +31,7 @@ public class MenuController : MonoBehaviour
 
     private void Update()
     {
-        if (FindObjectOfType<BirdFlap>() == null)
+        if (FindObjectOfType<BirdFlap>() == null && !gameController.isGameOver)
         {
             GameOverMenu.SetActive(true);
             PauseButton.SetActive(false);

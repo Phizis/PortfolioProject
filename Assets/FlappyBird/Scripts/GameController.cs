@@ -14,24 +14,60 @@ public class GameController : MonoBehaviour
     [Header("Score Controller")]
     [SerializeField] TextMeshProUGUI ScoreText;
     [SerializeField] PipeMovement scoreSpeed;
-    private float score = 0;
+    private int currentScore;
+    private int bestScore;
+    public bool isGameOver;
 
     [Header("LeaderBoard")]
     [SerializeField] GameObject GoldMedal;
     [SerializeField] GameObject SilverMedal;
-    [SerializeField] TextMeshProUGUI currentScore;
-    [SerializeField] TextMeshProUGUI bestScore;
+    [SerializeField] TextMeshProUGUI currentScoreText;
+    [SerializeField] TextMeshProUGUI bestScoreText;
 
     
     void Start()
     {
+        isGameOver= false;
+        GoldMedal.SetActive(false);
+        SilverMedal.SetActive(false);
+        LoadScore();
+
         StartCoroutine(PipesSpawn());
         StartCoroutine(ScoreCount());        
     }
 
     public void GameOver()
     {
+        isGameOver = true;
         StopAllCoroutines();
+        currentScore--;
+
+        if(currentScore > bestScore)
+        {
+            GoldMedal.SetActive(true);
+            bestScore = currentScore;
+            SaveScore(bestScore);
+        }
+        else
+        {
+            SilverMedal.SetActive(true);
+        }
+
+        currentScoreText.text = currentScore.ToString();
+        bestScoreText.text = bestScore.ToString();
+    }
+
+    private void SaveScore(int bestScore)
+    {
+        PlayerPrefs.SetInt("bestScore", bestScore);
+    }
+
+    private void LoadScore()
+    {
+        if (PlayerPrefs.HasKey("bestScore"))
+            bestScore = PlayerPrefs.GetInt("bestScore");
+        else
+            PlayerPrefs.SetInt("bestScore", bestScore);
     }
 
     IEnumerator PipesSpawn()
@@ -47,8 +83,8 @@ public class GameController : MonoBehaviour
     {
         while (true)
         {
-            ScoreText.text = score.ToString();
-            score++;
+            ScoreText.text = currentScore.ToString();
+            currentScore++;
             yield return new WaitForSeconds(scoreSpeed.pipeSpeed);
         }
     }

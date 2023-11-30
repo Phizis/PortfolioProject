@@ -14,7 +14,7 @@ public class BirdFlap : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0)
         {
             flapSound.Play();
             rb.velocity = Vector2.up * velocity;            
